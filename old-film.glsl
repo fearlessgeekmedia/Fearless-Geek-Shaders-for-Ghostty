@@ -5,10 +5,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // Fetch the video frame (assume iChannel0 is the video texture)
     vec4 videoColor = texture(iChannel0, uv);
 
-    // --- Subtle Film Grain ---
-    float grain = fract(sin(dot(fragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+    // --- Animated Film Grain ---
+    float grain = fract(sin(dot(fragCoord.xy + iTime * 50.0, vec2(12.9898, 78.233))) * 43758.5453);
     grain *= mix(0.9, 1.0, sin(iTime * 0.5 + uv.x * 50.0)); // Slow, animated grain
-    vec3 grainEffect = videoColor.rgb * (1.0 - grain * 0.08); // Increased grain intensity
+    vec3 grainEffect = videoColor.rgb * (1.0 - grain * 0.12); // Enhanced grain intensity
 
     // --- Reduced Frequency Scratches ---
     float scratchChance = step(0.995, fract(sin(uv.x * 200.0 + iTime * 20.0) * 43758.5453123)); // 25% frequency
